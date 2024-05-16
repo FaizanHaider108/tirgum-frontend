@@ -8,6 +8,8 @@ import { CiShoppingBasket } from 'react-icons/ci';
 import { useRouter } from 'next/navigation';
 import { BsArrowRight } from 'react-icons/bs';
 import { FaCartPlus } from 'react-icons/fa';
+import { TooltipButton2 } from './ToolTipButton2';
+import { TooltipButton } from './TooltipButton';
 type AddToCartBtnProps = {
     productId: number;
     productQty: number;
@@ -17,6 +19,8 @@ type AddToCartBtnProps = {
 const AddToCartBtn: React.FC<AddToCartBtnProps> = ({ productId, productQty, fullWidth = false }) => {
     const router = useRouter();
     const [isInCart, setIsInCart] = useState(false)
+    const [showTooltip, setShowTooltip] = useState(false)
+
 
     const { fetchCartProducts } = useCart();
 
@@ -43,14 +47,18 @@ const AddToCartBtn: React.FC<AddToCartBtnProps> = ({ productId, productQty, full
     return (
             <button
                 onClick={() => addToCartClicked()}
-                className={`${fullWidth && "w-full"} flex justify-center text-white ${isInCart ? "bg-green-400 hover:bg-green-500" : "bg-orange-400 hover:bg-orange-500 text-sm"} font-medium rounded-lg px-5 py-2.5 text-center text-xl`}
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+                className={`${fullWidth && "w-full"} flex justify-center text-white ${isInCart ? "bg-green-400 hover:bg-green-500" : "bg-orange-400 hover:bg-orange-500 text-sm"} [--trigger:hover]  font-medium rounded-lg px-5 py-2.5 text-center text-xl`}
             >
+                
                 {isInCart ? <CiShoppingBasket /> : <FaCartPlus/>}
                 {/* {!fullWidth && (
                 <Link href={`product/${productId}`} className='border border-gray-100 hover:bg-white bg-gray-100 px-4 py-2 rounded-lg text-xl'>
                     <BsArrowRight />
                 </Link>
-            )} */}
+            )} */}{showTooltip && <TooltipButton2 />}
+            
             </button>
 
 

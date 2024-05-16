@@ -3,12 +3,15 @@ import { adjustInComparisonProducts, commaSepCompProductIds } from "@/lib/compar
 import { useComp } from '@/context/CompContext/CompState';
 import { MdOutlineCompare, MdOutlineDoNotDisturbOnTotalSilence } from 'react-icons/md';
 import { CiSquareRemove } from 'react-icons/ci';
+import { TooltipButton } from './TooltipButton';
+
 
 
 const AddToCompBtn = ({productId}:{productId:number|undefined}) => {
 
     const {compProductsIds, setCompProductsIds} = useComp();
     const [isInComp, setIsInComp] = useState(false)
+    const [showTooltip, setShowTooltip] = useState(false)
 
 
     const setCompClicked = () => {
@@ -23,14 +26,26 @@ const AddToCompBtn = ({productId}:{productId:number|undefined}) => {
     }, [productId])
     
   return (
+
+    <>
+  
     <button
     onClick={() => setCompClicked()}
+    onMouseEnter={() => setShowTooltip(true)}
+    onMouseLeave={() => setShowTooltip(false)}
 
-    className={`flex ${isInComp ? "bg-red-400 hover:bg-red-500 " : "bg-slate-400 hover:bg-slate-500"} text-xl items-center justify-center text-white rounded-lg text-center`}
+    className={`flex ${isInComp ? "bg-red-400 hover:bg-red-500 " : "bg-slate-400 hover:bg-slate-500"}  [--trigger:hover] text-xl items-center justify-center text-white rounded-lg text-center`}
 >
         {!isInComp ?  <MdOutlineCompare /> :  <CiSquareRemove /> }
+        {showTooltip && <TooltipButton  />}
     
     </button>
+
+  
+    
+   </>
+
+    
 
   )
 }
