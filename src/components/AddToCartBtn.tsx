@@ -68,6 +68,7 @@ const AddToCartBtn: React.FC<AddToCartBtnProps> = ({
             )} */}
 
         {showTooltip && (
+          // login for showing Cart and add to cart 
           <ToolTip text={isInCart ? "Cart" : "Add to Cart"}/>
         )}
       </button>
