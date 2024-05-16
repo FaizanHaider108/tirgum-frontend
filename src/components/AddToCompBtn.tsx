@@ -40,6 +40,7 @@ const AddToCompBtn = ({productId}:{productId:number|undefined}) => {
         {!isInComp ?  <MdOutlineCompare /> :  <CiSquareRemove /> }
         
         {showTooltip && <ToolTip text={!isInComp ? " Add to Comparison" : " Remove to Comparison"}/>}
+        
     </button>
 
   
