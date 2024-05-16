@@ -6,7 +6,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import { useRouter } from 'next/navigation'
 import { SearchBoxProps } from "@/types";
-import { TooltipButton } from "./TooltipButton";
+import { TooltipButton } from "./ToolTip";
 import { SearchboxTooltip } from "./SearchboxTooltip";
 
 const SearchBox: React.FC<SearchBoxProps> = ({ size, brands, issteel, isdrive, istrailer, isretreaded, isincised, allBrands, allSizes, ispair, advance }) => {

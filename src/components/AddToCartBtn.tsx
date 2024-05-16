@@ -8,8 +8,8 @@ import { CiShoppingBasket } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import { BsArrowRight } from "react-icons/bs";
 import { FaCartPlus } from "react-icons/fa";
-import { TooltipButton2 } from "./ToolTipButton2";
-import { TooltipButton } from "./TooltipButton";
+import { ToolTip } from "./ToolTip";
+
 type AddToCartBtnProps = {
   productId: number;
   productQty: number;
@@ -54,11 +54,11 @@ const AddToCartBtn: React.FC<AddToCartBtnProps> = ({
         onMouseLeave={() => setShowTooltip(false)}
         className={`${
           fullWidth && "w-full"
-        } relative flex justify-center text-white ${
+        } flex justify-center text-white ${
           isInCart
             ? "bg-green-400 hover:bg-green-500"
             : "bg-orange-400 hover:bg-orange-500 text-sm"
-        }  font-medium rounded-lg px-5 py-2.5 text-center text-xl`}
+        }  font-medium rounded-lg px-5 py-2.5 text-center text-xl relative`}
       >
         {isInCart ? <CiShoppingBasket /> : <FaCartPlus />}
         {/* {!fullWidth && (
@@ -68,7 +68,7 @@ const AddToCartBtn: React.FC<AddToCartBtnProps> = ({
             )} */}
 
         {showTooltip && (
-          <TooltipButton2 />
+          <ToolTip text={isInCart ? "Cart" : "Add to Cart"}/>
         )}
       </button>
     </>
