@@ -7,7 +7,7 @@ import AddToCartBtn from './AddToCartBtn';
 import AddToCompBtn from './AddToCompBtn';
 import NoProductExc from './NoProductExc';
 import ProductMiniDetails from './product/ProductMiniDetails';
-import { TooltipButton } from './TooltipButton';
+
 const ProductItems: React.FC<ProductItemsProps> = ({ list, prodLoading, queryString }) => {
 
     // const MemoizedProductList = useMemo(() => list, [list]);
@@ -65,6 +65,7 @@ const ProductItems: React.FC<ProductItemsProps> = ({ list, prodLoading, queryStr
                                    
 
                                     <AddToCartBtn productId={product?.id} productQty={1} />
+                                    
                                     </div>
                                 </div>
                             </div>

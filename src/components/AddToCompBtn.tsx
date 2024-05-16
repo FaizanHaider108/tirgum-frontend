@@ -3,8 +3,8 @@ import { adjustInComparisonProducts, commaSepCompProductIds } from "@/lib/compar
 import { useComp } from '@/context/CompContext/CompState';
 import { MdOutlineCompare, MdOutlineDoNotDisturbOnTotalSilence } from 'react-icons/md';
 import { CiSquareRemove } from 'react-icons/ci';
-import { TooltipButton } from './TooltipButton';
-import { TooltipButton2 } from './ToolTipButton2';
+import { TooltipButton } from '@/components/TooltipButton';
+
 
 
 
@@ -39,7 +39,7 @@ const AddToCompBtn = ({productId}:{productId:number|undefined}) => {
 >
         {!isInComp ?  <MdOutlineCompare /> :  <CiSquareRemove /> }
         
-            {showTooltip&& <TooltipButton />}
+        {showTooltip && <TooltipButton />}
     </button>
 
   

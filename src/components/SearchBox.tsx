@@ -6,6 +6,8 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import { useRouter } from 'next/navigation'
 import { SearchBoxProps } from "@/types";
+import { TooltipButton } from "./TooltipButton";
+import { SearchboxTooltip } from "./SearchboxTooltip";
 
 const SearchBox: React.FC<SearchBoxProps> = ({ size, brands, issteel, isdrive, istrailer, isretreaded, isincised, allBrands, allSizes, ispair, advance }) => {
 
@@ -28,6 +30,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ size, brands, issteel, isdrive, i
 
   // -------------
   const [isPair, setIsPair] = useState<boolean>(false);
+  const [showTooltip, setShowTooltip] = useState(false)
 
 
   const brandsRef = useRef(null);
@@ -54,7 +57,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ size, brands, issteel, isdrive, i
       isretreaded: isRetreaded ? isRetreaded.toString() : "",
       isincised: isIncised ? isIncised.toString() : "",
       ispair: isPair.toString(),
-      advance: advanceFiltersShow? advanceFiltersShow.toString() : "false",
+      advance: advanceFiltersShow ? advanceFiltersShow.toString() : "false",
     };
 
     const queryString = new URLSearchParams(queryParams).toString();
@@ -81,9 +84,9 @@ const SearchBox: React.FC<SearchBoxProps> = ({ size, brands, issteel, isdrive, i
   };
 
 
-  const advanceFiltersClosed = (input:boolean) => {
-      setAdvanceFiltersShow(input)
-      if (input === false){
+  const advanceFiltersClosed = (input: boolean) => {
+    setAdvanceFiltersShow(input)
+    if (input === false) {
       setIsRetreaded(false)
       setIsIncised(false)
     }
@@ -140,7 +143,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ size, brands, issteel, isdrive, i
     setIsIncised(isincised ? isincised === "true" : false);
   }, [isincised])
 
-  
+
   useEffect(() => {
     setAdvanceFiltersShow(advance)
   }, [advance])
@@ -155,7 +158,10 @@ const SearchBox: React.FC<SearchBoxProps> = ({ size, brands, issteel, isdrive, i
         <div className="w-full sm:w-4/5 md:w-3/5 lg:w-2/5 bg-gray-200 flex flex-col space-y-2 p-4 rounded-md mx-auto my-10">
           <div className="flex justify-start my-2">
 
-            <label className="inline-flex items-center cursor-pointer">
+            <label 
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+            className="inline-flex items-center cursor-pointer">
               <input
                 onClick={() => setIsPair(!isPair)}
                 type="checkbox"
@@ -164,7 +170,11 @@ const SearchBox: React.FC<SearchBoxProps> = ({ size, brands, issteel, isdrive, i
                 onChange={e => { }}
               />
               <div className={`p-2 items-center relative w-[3.4rem] h-7 rounded-full peer ${isPair ? 'peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full bg-blue-700' : 'bg-slate-700'} peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[3px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all outline-none ring-0`} ></div>
+
               <span className="ms-3 text-lg font-medium text-gray-900">{isPair ? "Search Pairs" : "Search Single"}</span>
+
+              {showTooltip && <SearchboxTooltip />}
+
             </label>
 
 
@@ -204,7 +214,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ size, brands, issteel, isdrive, i
 
 
 
-            <label className={`mb-2 text-sm font-medium px-4 py-2 rounded-xl cursor-pointer flex justify-between hover:bg-opacity-80 items-center ${allBrandsShow?"bg-orange-400 text-white":"bg-slate-50 text-black"}`} onClick={() => setAllBrandsShow(!allBrandsShow)}>
+            <label className={`mb-2 text-sm font-medium px-4 py-2 rounded-xl cursor-pointer flex justify-between hover:bg-opacity-80 items-center ${allBrandsShow ? "bg-orange-400 text-white" : "bg-slate-50 text-black"}`} onClick={() => setAllBrandsShow(!allBrandsShow)}>
 
               <span className="text-xl font-normal">{activeBrands.length > 0 ? `${activeBrands.includes(0) ? "All Brands Selected" : `${activeBrands.length} Brand Selected`}` : "Select a Brand"}</span>
 
@@ -223,36 +233,36 @@ const SearchBox: React.FC<SearchBoxProps> = ({ size, brands, issteel, isdrive, i
 
 
 
-              <div className={`${allBrandsShow?"opacity-100 visible max-h-40 w-full":"opacity-0 invisible max-h-0 h-0 w-0"} rounded-xl bg-slate-50 p-4 cursor-pointer space-y-2 overflow-auto absolute z-20  transition-all duration-300`}>
-                <div onClick={() => handleSingleBrandClick(0)} className={`hover:bg-slate-200 flex justify-between py-2 px-2 rounded-lg`}>
-                  {"All"}
-                  {activeBrands?.includes(0) && (
-                    <span className=" inline-flex items-center justify-center w-5 h-5 me-2 text-sm font-semibold text-gray-800 bg-gray-100 rounded-full dark:bg-orange-400 dark:text-white">
-                      <svg className="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5.917 5.724 10.5 15 1.5" />
-                      </svg>
-                      <span className="sr-only">Icon description</span>
-                    </span>
-                  )}
-                </div>
-                {allBrands && allBrands.map((data) => {
-                  if (!activeBrands?.includes(0)) {
-
-                    return <div key={data.id} onClick={() => handleSingleBrandClick(data.id)} className={`hover:bg-slate-200 flex justify-between py-2 px-2 rounded-lg`}>
-                      {data.name}
-                      {activeBrands?.includes(data.id) && (
-                        <span className="inline-flex items-center justify-center w-5 h-5 me-2 text-sm font-semibold text-gray-800 bg-gray-100 rounded-full dark:bg-orange-400 dark:text-white">
-                          <svg className="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5.917 5.724 10.5 15 1.5" />
-                          </svg>
-                          <span className="sr-only">Icon description</span>
-                        </span>
-                      )}
-                    </div>
-                  }
-
-                })}
+            <div className={`${allBrandsShow ? "opacity-100 visible max-h-40 w-full" : "opacity-0 invisible max-h-0 h-0 w-0"} rounded-xl bg-slate-50 p-4 cursor-pointer space-y-2 overflow-auto absolute z-20  transition-all duration-300`}>
+              <div onClick={() => handleSingleBrandClick(0)} className={`hover:bg-slate-200 flex justify-between py-2 px-2 rounded-lg`}>
+                {"All"}
+                {activeBrands?.includes(0) && (
+                  <span className=" inline-flex items-center justify-center w-5 h-5 me-2 text-sm font-semibold text-gray-800 bg-gray-100 rounded-full dark:bg-orange-400 dark:text-white">
+                    <svg className="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5.917 5.724 10.5 15 1.5" />
+                    </svg>
+                    <span className="sr-only">Icon description</span>
+                  </span>
+                )}
               </div>
+              {allBrands && allBrands.map((data) => {
+                if (!activeBrands?.includes(0)) {
+
+                  return <div key={data.id} onClick={() => handleSingleBrandClick(data.id)} className={`hover:bg-slate-200 flex justify-between py-2 px-2 rounded-lg`}>
+                    {data.name}
+                    {activeBrands?.includes(data.id) && (
+                      <span className="inline-flex items-center justify-center w-5 h-5 me-2 text-sm font-semibold text-gray-800 bg-gray-100 rounded-full dark:bg-orange-400 dark:text-white">
+                        <svg className="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5.917 5.724 10.5 15 1.5" />
+                        </svg>
+                        <span className="sr-only">Icon description</span>
+                      </span>
+                    )}
+                  </div>
+                }
+
+              })}
+            </div>
 
           </div>
 
@@ -306,30 +316,30 @@ const SearchBox: React.FC<SearchBoxProps> = ({ size, brands, issteel, isdrive, i
               <span className="ms-3 text-lg font-medium text-gray-900">Advance Filters</span>
             </label>
 
-            
 
-              <div className={`overflow-y-hidden  duration-700 transition-all z-10 ${advanceFiltersShow?"opacity-100 visible w-full max-h-24":"opacity-0 invisible max-h-0 w-0"}`}>
-                <ul className="max-w-full w-full grid grid-cols-2 sm:grid-cols-3 items-stretch bg-slate-50 px-8 py-2 rounded-lg">
 
-                  <li className="flex p-1">
-                    <input onClick={() => setIsRetreaded(!isRetreaded)} type="checkbox" id="Bieżnikowana" value="" className="hidden peer" />
-                    <label htmlFor="Bieżnikowana" className={`justify-center inline-flex items-center text-center  p-5 bg-white border-2  rounded-lg cursor-pointer ${isRetreaded ? ("border-orange-400 text-gray-600") : ("border-gray-200 text-gray-500")} hover:text-gray-600 hover:bg-gray-50 max-w-[100%] w-[100%]`}>
-                      <div className="block w-fit">
-                        <div className="break-all text-xs font-semibold ">Bieznikowana</div>
-                      </div>
-                    </label>
-                  </li>
+            <div className={`overflow-y-hidden  duration-700 transition-all z-10 ${advanceFiltersShow ? "opacity-100 visible w-full max-h-24" : "opacity-0 invisible max-h-0 w-0"}`}>
+              <ul className="max-w-full w-full grid grid-cols-2 sm:grid-cols-3 items-stretch bg-slate-50 px-8 py-2 rounded-lg">
 
-                  <li className="flex p-1">
-                    <input onClick={() => setIsIncised(!isIncised)} type="checkbox" id="isIncised" value="" className="hidden peer" />
-                    <label htmlFor="isIncised" className={`justify-center inline-flex items-center text-center  p-5 bg-white border-2  rounded-lg cursor-pointer ${isIncised ? ("border-orange-400 text-gray-600") : ("border-gray-200 text-gray-500")} hover:text-gray-600 hover:bg-gray-50 max-w-[100%] w-[100%]`}>
-                      <div className="block">
-                        <div className="break-all text-xs font-semibold ">Nacinania</div>
-                      </div>
-                    </label>
-                  </li>
-                </ul>
-              </div>
+                <li className="flex p-1">
+                  <input onClick={() => setIsRetreaded(!isRetreaded)} type="checkbox" id="Bieżnikowana" value="" className="hidden peer" />
+                  <label htmlFor="Bieżnikowana" className={`justify-center inline-flex items-center text-center  p-5 bg-white border-2  rounded-lg cursor-pointer ${isRetreaded ? ("border-orange-400 text-gray-600") : ("border-gray-200 text-gray-500")} hover:text-gray-600 hover:bg-gray-50 max-w-[100%] w-[100%]`}>
+                    <div className="block w-fit">
+                      <div className="break-all text-xs font-semibold ">Bieznikowana</div>
+                    </div>
+                  </label>
+                </li>
+
+                <li className="flex p-1">
+                  <input onClick={() => setIsIncised(!isIncised)} type="checkbox" id="isIncised" value="" className="hidden peer" />
+                  <label htmlFor="isIncised" className={`justify-center inline-flex items-center text-center  p-5 bg-white border-2  rounded-lg cursor-pointer ${isIncised ? ("border-orange-400 text-gray-600") : ("border-gray-200 text-gray-500")} hover:text-gray-600 hover:bg-gray-50 max-w-[100%] w-[100%]`}>
+                    <div className="block">
+                      <div className="break-all text-xs font-semibold ">Nacinania</div>
+                    </div>
+                  </label>
+                </li>
+              </ul>
+            </div>
 
           </div>
 
