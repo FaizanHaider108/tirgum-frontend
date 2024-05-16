@@ -7,6 +7,7 @@ import AddToCartBtn from './AddToCartBtn';
 import AddToCompBtn from './AddToCompBtn';
 import NoProductExc from './NoProductExc';
 import ProductMiniDetails from './product/ProductMiniDetails';
+import { TooltipButton } from './TooltipButton';
 const ProductItems: React.FC<ProductItemsProps> = ({ list, prodLoading, queryString }) => {
 
     // const MemoizedProductList = useMemo(() => list, [list]);
@@ -31,7 +32,7 @@ const ProductItems: React.FC<ProductItemsProps> = ({ list, prodLoading, queryStr
                 </div>
             ) : (
                 <div className=" grid sm:grid-cols-2 lg:grid-cols-3 mt-20 p-4">
-                    {MemoizedProductList && MemoizedProductList?.length > 0 ? MemoizedProductList.map((product) => (
+                    {MemoizedProductList && MemoizedProductList?.length > 0 ? MemoizedProductList.map((product) => 
                         <div key={product?.id} className="w-[99%] max-w-full bg-white border border-gray-200 rounded-lg shadow mb-2">
                             <Link href={`/product/${product?.id}?${queryString}`}>
                                 <Image
@@ -58,7 +59,10 @@ const ProductItems: React.FC<ProductItemsProps> = ({ list, prodLoading, queryStr
                                         </span>
                                     </div>
                                     <div className="grid grid-cols-2 gap-2">
+                                    
+                                   
                                     <AddToCompBtn productId={product?.id}/>
+                                   
 
                                     <AddToCartBtn productId={product?.id} productQty={1} />
                                     </div>
@@ -66,7 +70,7 @@ const ProductItems: React.FC<ProductItemsProps> = ({ list, prodLoading, queryStr
                             </div>
                         </div>
 
-                    ))
+                    )
                         : (
                         <NoProductExc/>
                         )}

@@ -57,7 +57,8 @@ const AddToCartBtn: React.FC<AddToCartBtnProps> = ({ productId, productQty, full
                 <Link href={`product/${productId}`} className='border border-gray-100 hover:bg-white bg-gray-100 px-4 py-2 rounded-lg text-xl'>
                     <BsArrowRight />
                 </Link>
-            )} */}{showTooltip && <TooltipButton2 />}
+            )} */}
+            {showTooltip && <TooltipButton2 />}
             
             </button>
 
