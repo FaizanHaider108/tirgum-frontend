@@ -66,8 +66,8 @@ const Card: React.FC<{ params: { id: string }, searchParams?: { [key: string]: s
             >
                 <img
                     src={src}
-                    style={{ height: height, width: width, objectFit: "cover" }}
-                    className="rounded-lg"
+                    style={{ height: height, width: width,}}
+                    className="rounded-lg object-fill sm:object-fill md:object-fill"
                     onMouseEnter={(e) => {
                         // update image size and turn-on magnifier
                         const elem = e.currentTarget;
